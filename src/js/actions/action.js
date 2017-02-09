@@ -7,10 +7,10 @@ export const AddItem = (data) => ({
 	completed:data.completed
 })
 
-export const CompleteItem = (id, completedFlag) => ({
+export const completeItem = (data) => ({
 	type: "COMPLETED_ITEM",
-	itemId: id,
-	completed:completedFlag
+	itemId: data.id,
+	completed:data.completed
 })
 
 export const addNewItem = (id,item) => {
@@ -22,8 +22,21 @@ export const addNewItem = (id,item) => {
 		     }
 		axios.post("http://localhost:3000/api/additem",postData)
 			 .then(res=>{
-				console.dir(res.data.result)
 				dispatch(AddItem(postData))
+		     })
+	}	
+}
+
+export const markItemComplete = (id,completedFlag) => {
+	return (dispatch) => {
+		let postData = {
+				id:id,
+				completed:completedFlag
+		     }
+		axios.post("http://localhost:3000/api/markcomplete",postData)
+			 .then(res=>{
+				console.dir(res.data.result)
+				dispatch(completeItem(postData))
 		     })
 	}	
 }

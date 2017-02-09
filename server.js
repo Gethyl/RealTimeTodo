@@ -54,6 +54,7 @@ router.route('/')
 				else res.json({message:"+++Gethyl GET worked!!",result:result})
 			})
 		  });
+		  
 router.route('/getallitems')
 		.get((req,res)=>{
 			todoModel.find({},"-_id itemId item completed",(err,result)=>{
@@ -63,6 +64,7 @@ router.route('/getallitems')
 				}
 			})
 		  });
+
 router.route('/additem')
 		.post((req,res)=>{
 			
@@ -73,11 +75,23 @@ router.route('/additem')
 			})
 
 			todoItem.save((err,result)=> {
-				if (err) {res.send("---Gethyl todoItem save failed " + err)}
-				else res.json({message:"+++Gethyl SAVED new todo Item!!",result:result})
+				if (err) {res.send("---Gethyl ADD NEW ITEM failed!! " + err)}
+				else res.json({message:"+++Gethyl ADD NEW ITEM worked!!",result:result})
 			})
 	    });
+		
+router.route('/markcomplete')
+		.post((req,res)=>{
+			var condition   = {itemId:req.body.id},
+			    updateValue = {completed:req.body.completed}
 
+			todoModel.update(condition,updateValue,(err,result)=>{
+				if (err){res.json({message:"---Gethyl MARKED COMPLETE failed!!",err:err})}
+				else {
+					res.json({message:"+++Gethyl MARKED COMPLETE worked!!",result:result})
+				}
+			})
+		  });
 
 // further routes goes here
 

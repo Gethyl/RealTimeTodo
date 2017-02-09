@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom"
 import {connect} from 'react-redux'
-import {addNewItem,loadInitialData} from '../actions/action'
+import {addNewItem,loadInitialData,markItemComplete} from '../actions/action'
 import {List} from "immutable"
 
 const mapStateToProps = (state = {}) => {
@@ -35,7 +35,7 @@ export  class Layout extends React.Component{
 
 				<ul>{items.map((todo,key)=>{
                     return <li key={key} className={todo.completed?"complete-item":""} onClick={ (event) => {
-									  dispatch(CompleteItem(key,!todo.completed))
+									  dispatch(markItemComplete(key+1,!todo.completed))
 									}
 								}>{todo.text}
 						   </li>})

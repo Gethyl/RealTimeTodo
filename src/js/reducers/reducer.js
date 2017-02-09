@@ -16,7 +16,7 @@ const reducer = (state=initialState, action) => {
     case 'COMPLETED_ITEM':
 	  return {
         ...state,
-        items:state.items.update( action.itemId,(value)=> {
+        items:state.items.update( action.itemId-1,(value)=> {
            return {...value,completed:  action.completed}
         })
       }
