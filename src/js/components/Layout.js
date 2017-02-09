@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom"
 import {connect} from 'react-redux'
 import {addNewItem,loadInitialData,markItemComplete
-	   ,loadInitialDataSocket,addNewItemSocket,AddItem} from '../actions/action'
+	   ,loadInitialDataSocket,addNewItemSocket,markItemCompleteSocket
+	   ,AddItem,completeItem} from '../actions/action'
 import {List} from "immutable"
 import io from "socket.io-client"
 
@@ -16,18 +17,21 @@ export  class Layout extends React.Component{
    constructor(props)
    {
 	   super(props)
-   }
-
-   componentWillMount() {
-	   //this.props.dispatch(loadInitialData())
-   	   socket = io.connect("http://localhost:3000")
+	   const {dispatch} = this.props
+	//    dispatch(loadInitialData())
+	   socket = io.connect("http://localhost:3000")
 	   console.dir(socket)
-	   this.props.dispatch(loadInitialDataSocket(socket))
+	   dispatch(loadInitialDataSocket(socket))
+	   
 	   socket.on('itemAdded',(res)=>{
 		   console.dir(res)
-		   this.props.dispatch(AddItem(res))
+		   dispatch(AddItem(res))
 	   })
-	   
+
+	   socket.on('itemMarked',(res)=>{
+		   console.dir(res)
+		   dispatch(completeItem(res))
+	   })
    }
 
    componentWillUnmount() {
@@ -40,7 +44,8 @@ export  class Layout extends React.Component{
 		
 		return (
 			<div>
-				<h1>React TO-DO</h1>
+				<h1>React TO-DO (Real-Time)</h1>
+				<h4>Real-Time To Do using React, Redux, socket.io and Redux-thunk on client and ExpressJs, MongoDb, socket.io on the server side </h4>
                 <hr/>
                 <input type="text" ref="newTodo"/>
                 {" "}
@@ -48,13 +53,15 @@ export  class Layout extends React.Component{
                         const newItem = ReactDOM.findDOMNode(this.refs.newTodo).value
                         newItem === "" ?  alert("Item shouldn't be blank")
 						               :  dispatch(addNewItemSocket(socket,items.size,newItem)) 
+									    {/*: dispatch(addNewItem(items.size,newItem))*/}
                         ReactDOM.findDOMNode(this.refs.newTodo).value = ""
 					  }
 					}>Add new Item!!</button>
 
 				<ul>{items.map((todo,key)=>{
                     return <li key={key} className={todo.completed?"complete-item":""} onClick={ (event) => {
-									  dispatch(markItemComplete(key+1,!todo.completed))
+									  {/*dispatch(markItemComplete(key+1,!todo.completed))*/}
+									  dispatch(markItemCompleteSocket(socket,key+1,!todo.completed))
 									}
 								}>{todo.text}
 						   </li>})

@@ -147,5 +147,23 @@ io.on('connection', function (socket) {
 			}
 		})
 	})
+
+	socket.on('markItem',(markedItem)=>{
+		console.log("Entered markItem")
+		console.dir(markedItem)
+		var condition   = {itemId:markedItem.id},
+			updateValue = {completed:markedItem.completed}
+
+		todoModel.update(condition,updateValue,(err,result)=>{
+			if (err) {console.log("---Gethyl MARK COMPLETE failed!! " + err)}
+			else {
+				connections.forEach((currentConnection)=>{
+					currentConnection.emit('itemMarked',markedItem)
+				})
+				
+				console.log({message:"+++Gethyl MARK COMPLETE worked!!",result:result})
+			}
+		})
+	})
 	
 });

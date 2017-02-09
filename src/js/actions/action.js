@@ -68,7 +68,7 @@ export const loadInitialData = () => {
 }
 
 /***************************************************************************************** */
-/* Action items using - Sockets															   */
+/* Async Action items using - Sockets													   */
 /***************************************************************************************** */
 export const loadInitialDataSocket = (socket) => {
 	return (dispatch) => {
@@ -90,4 +90,12 @@ export const addNewItemSocket = (socket,id,item) => {
 	}	
 }
 
-
+export const markItemCompleteSocket = (socket,id,completedFlag) => {
+	return (dispatch) => {
+		let postData = {
+				id:id,
+				completed:completedFlag
+		     }
+		socket.emit('markItem',postData)
+	}	
+}
