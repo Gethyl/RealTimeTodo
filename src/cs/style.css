@@ -1,0 +1,9 @@
+.indicator {
+  font-size: 36px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.complete-item{   
+  text-decoration: line-through;
+}
