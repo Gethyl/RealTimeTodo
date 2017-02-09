@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom"
 import {connect} from 'react-redux'
-import {AddItem,CompleteItem,loadInitialData} from '../actions/action'
+import {addNewItem,loadInitialData} from '../actions/action'
 import {List} from "immutable"
 
 const mapStateToProps = (state = {}) => {
+	// console.dir(state)
     return {...state};
 };
 
@@ -26,7 +27,8 @@ export  class Layout extends React.Component{
                 {" "}
                 <button id="click" onClick={ () => {
                         const newItem = ReactDOM.findDOMNode(this.refs.newTodo).value
-                        newItem === "" ?  alert("Item shouldn't be blank"): dispatch(AddItem(newItem)) 
+                        newItem === "" ?  alert("Item shouldn't be blank")
+						               :  dispatch(addNewItem(items.size,newItem)) 
                         ReactDOM.findDOMNode(this.refs.newTodo).value = ""
 					  }
 					}>Add new Item!!</button>
