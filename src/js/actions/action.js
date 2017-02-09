@@ -13,6 +13,21 @@ export const completeItem = (data) => ({
 	completed:data.completed
 })
 
+
+export const initialData = (res) => ({
+	type: "INITIAL_LIST",
+	items: res
+})
+
+/* Used only by actions for sockets */
+export const initialItems = (res) => ({
+	type: "INITIAL_ITEMS",
+	items: res
+})
+
+/***************************************************************************************** */
+/* Async action items using Axios														   */
+/***************************************************************************************** */
 export const addNewItem = (id,item) => {
 	return (dispatch) => {
 		let postData = {
@@ -52,7 +67,27 @@ export const loadInitialData = () => {
 	}	
 }
 
-export const initialData = (res) => ({
-	type: "INITIAL_LIST",
-	items: res
-})
+/***************************************************************************************** */
+/* Action items using - Sockets															   */
+/***************************************************************************************** */
+export const loadInitialDataSocket = (socket) => {
+	return (dispatch) => {
+		socket.on('initialList',(res)=>{
+		   console.dir(res)
+		   dispatch(initialItems(res))
+	   })
+	}	
+}
+
+export const addNewItemSocket = (socket,id,item) => {
+	return (dispatch) => {
+		let postData = {
+				id:id+1,
+				item:item,
+				completed:false
+		     }
+	    socket.emit('addItem',postData)		
+	}	
+}
+
+

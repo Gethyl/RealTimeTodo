@@ -1,9 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom"
 import {connect} from 'react-redux'
-import {addNewItem,loadInitialData,markItemComplete} from '../actions/action'
+import {addNewItem,loadInitialData,markItemComplete
+	   ,loadInitialDataSocket,addNewItemSocket,AddItem} from '../actions/action'
 import {List} from "immutable"
+import io from "socket.io-client"
 
+let socket;
 const mapStateToProps = (state = {}) => {
 	// console.dir(state)
     return {...state};
@@ -13,7 +16,23 @@ export  class Layout extends React.Component{
    constructor(props)
    {
 	   super(props)
-	   this.props.dispatch(loadInitialData())
+   }
+
+   componentWillMount() {
+	   //this.props.dispatch(loadInitialData())
+   	   socket = io.connect("http://localhost:3000")
+	   console.dir(socket)
+	   this.props.dispatch(loadInitialDataSocket(socket))
+	   socket.on('itemAdded',(res)=>{
+		   console.dir(res)
+		   this.props.dispatch(AddItem(res))
+	   })
+	   
+   }
+
+   componentWillUnmount() {
+       socket.disconnect()
+	   alert("Disconnecting Socket as component will unmount")
    }
 
    render(){	
@@ -28,7 +47,7 @@ export  class Layout extends React.Component{
                 <button id="click" onClick={ () => {
                         const newItem = ReactDOM.findDOMNode(this.refs.newTodo).value
                         newItem === "" ?  alert("Item shouldn't be blank")
-						               :  dispatch(addNewItem(items.size,newItem)) 
+						               :  dispatch(addNewItemSocket(socket,items.size,newItem)) 
                         ReactDOM.findDOMNode(this.refs.newTodo).value = ""
 					  }
 					}>Add new Item!!</button>

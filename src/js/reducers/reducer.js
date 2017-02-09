@@ -7,7 +7,6 @@ const initialState = { items:List([])}
 const reducer = (state=initialState, action) => {
   switch (action.type) {
     case 'ADD_ITEM':
-       let newList = state.items.push({id:action.itemId,text:action.text,completed:action.completed})
         return {
             ...state,
             items:state.items.push({id:action.itemId,text:action.text,completed:action.completed})
@@ -24,6 +23,11 @@ const reducer = (state=initialState, action) => {
 	  return {
         ...state,
         items:List(action.items)
+      }
+    case 'INITIAL_ITEMS':
+	  return {
+        ...state,
+        items:state.items.push({id:action.items.itemId,text:action.items.item,completed:action.items.completed})
       }
     default:
       return state

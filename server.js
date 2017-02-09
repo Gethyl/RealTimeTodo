@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const autoIncrement = require('mongoose-auto-increment')
+const http = require('http')
+const socketServer =require('socket.io')
 
 const app = express();
 
@@ -97,4 +99,53 @@ router.route('/markcomplete')
 
 app.use('/api',router)
 
-app.listen(3000,()=> {console.log("+++Gethyl Express Running!!!")})
+//app.listen(3000,()=> {console.log("+++Gethyl Express Running!!!")})
+var serve = http.createServer(app);
+var io = socketServer(serve);
+serve.listen(3000,()=> {console.log("+++Gethyl Express Server with Socket Running!!!")})
+
+
+/***************************************************************************************** */
+/* Socket logic starts here																   */
+/***************************************************************************************** */
+const connections = [];
+io.on('connection', function (socket) {
+  console.log("Connected to Socket!!"+ socket.id)	
+  connections.push(socket)
+//   socket.emit('news', { hello: 'world' });
+//   socket.on('my other event', function (data) {
+//     console.log(data);
+//   });
+
+	var cursor = todoModel.find({},"-_id itemId item completed",(err,result)=>{
+				if (err){
+					console.log("---Gethyl GET failed!!")
+				}
+				else {
+					console.log("+++Gethyl GET worked!!")
+				}
+			}).cursor()
+	cursor.on('data',(res)=> {socket.emit('initialList',res)})
+	
+	socket.on('addItem',(addData)=>{
+		console.log("Entered addItem")
+		console.dir(addData)
+		var todoItem = new todoModel({
+			itemId:addData.id,
+			item:addData.item,
+			completed: addData.completed
+		})
+
+		todoItem.save((err,result)=> {
+			if (err) {console.log("---Gethyl ADD NEW ITEM failed!! " + err)}
+			else {
+				connections.forEach((currentConnection)=>{
+					currentConnection.emit('itemAdded',addData)
+				})
+				
+				console.log({message:"+++Gethyl ADD NEW ITEM worked!!",result:result})
+			}
+		})
+	})
+	
+});
