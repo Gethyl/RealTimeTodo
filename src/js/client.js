@@ -7,12 +7,16 @@ import thunk from 'redux-thunk'
 import reducer from './reducers/reducer'
 import Layout from "./components/Layout";
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+
 const app = document.getElementById('app')
 
 const store = createStore(reducer, applyMiddleware(thunk))
 
 ReactDOM.render(
 	<Provider store={store}>
-		<Layout/>
+		<MuiThemeProvider>	
+			<Layout/>
+		</MuiThemeProvider>
 	</Provider>
 	, app);

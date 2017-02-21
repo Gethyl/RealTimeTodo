@@ -7,6 +7,8 @@ import {addNewItem,loadInitialData,markItemComplete
 import {List} from "immutable"
 import io from "socket.io-client"
 
+import TextField from 'material-ui/TextField'
+
 let socket;
 const mapStateToProps = (state = {}) => {
 	// console.dir(state)
@@ -47,7 +49,12 @@ export  class Layout extends React.Component{
 				<h1>React TO-DO (Real-Time)</h1>
 				<h4>Real-Time To Do using React, Redux, socket.io and Redux-thunk on client and ExpressJs, MongoDb, socket.io on the server side </h4>
                 <hr/>
-                <input type="text" ref="newTodo"/>
+				<TextField 
+					hintText="Add New Item"
+      				floatingLabelText="Enter the new item"
+					ref="newTodo"
+				/>
+             {/*<input type="text" ref="newTodo"/>*/}
                 {" "}
                 <button id="click" onClick={ () => {
                         const newItem = ReactDOM.findDOMNode(this.refs.newTodo).value

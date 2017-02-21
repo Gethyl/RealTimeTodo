@@ -17,6 +17,7 @@
     "express": "^4.14.1",
     "http": "^0.0.0",
     "immutable": "^3.8.1",
+    "material-ui": "^0.17.0",
     "mongoose": "^4.8.1",
     "mongoose-auto-increment": "^5.0.1",
     "nodemon": "^1.11.0",
