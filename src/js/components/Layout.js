@@ -8,6 +8,11 @@ import {List} from "immutable"
 import io from "socket.io-client"
 
 import TextField from 'material-ui/TextField'
+import RaisedButton from 'material-ui/RaisedButton'
+
+import injectTapEventPlugin from 'react-tap-event-plugin'
+
+injectTapEventPlugin()
 
 let socket;
 const mapStateToProps = (state = {}) => {
@@ -56,15 +61,17 @@ export  class Layout extends React.Component{
 				/>
              {/*<input type="text" ref="newTodo"/>*/}
                 {" "}
-                <button id="click" onClick={ () => {
-                        const newItem = ReactDOM.findDOMNode(this.refs.newTodo).value
+				<RaisedButton
+					label="Click to add!" primary={true}
+					onTouchTap={ () => {
+                        const newItem = ReactDOM.findDOMNode(this.refs.newTodo.input).value
                         newItem === "" ?  alert("Item shouldn't be blank")
 						               :  dispatch(addNewItemSocket(socket,items.size,newItem)) 
 									    {/*: dispatch(addNewItem(items.size,newItem))*/}
-                        ReactDOM.findDOMNode(this.refs.newTodo).value = ""
+                        ReactDOM.findDOMNode(this.refs.newTodo.input).value = ""
 					  }
-					}>Add new Item!!</button>
-
+					}
+				/>
 				<ul>{items.map((todo,key)=>{
                     return <li key={key} className={todo.completed?"complete-item":""} onClick={ (event) => {
 									  {/*dispatch(markItemComplete(key+1,!todo.completed))*/}
