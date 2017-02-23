@@ -9,6 +9,7 @@ import io from "socket.io-client"
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import {List, ListItem} from 'material-ui/List'
+import Divider from 'material-ui/Divider'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
@@ -59,8 +60,8 @@ export  class Layout extends React.Component{
 		return (
 			<div>
 				<h1 style={robotFontStyle}>React TO-DO (Real-Time)</h1>
-				<h4 style={robotFontStyle}>Real-Time To Do using React, Redux, socket.io and Redux-thunk on client and ExpressJs, MongoDb, socket.io on the server side </h4>
-                <hr/>
+				
+                <Divider/>
 				<TextField 
 					hintText="Add New Item"
       				floatingLabelText="Enter the new item"
@@ -80,7 +81,7 @@ export  class Layout extends React.Component{
 					}
 				/>
 				<List>{items.map((todo,key)=>{
-                    return <ListItem key={key} style={todo.completed?markCompleteStyle:""} onClick={ (event) => {
+                    return <ListItem key={key} style={todo.completed?markCompleteStyle:{}} onClick={ (event) => {
 									  {/*dispatch(markItemComplete(key+1,!todo.completed))*/}
 									  dispatch(markItemCompleteSocket(socket,key+1,!todo.completed))
 									}
