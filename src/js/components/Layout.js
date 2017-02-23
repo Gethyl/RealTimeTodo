@@ -4,17 +4,21 @@ import {connect} from 'react-redux'
 import {addNewItem,loadInitialData,markItemComplete
 	   ,loadInitialDataSocket,addNewItemSocket,markItemCompleteSocket
 	   ,AddItem,completeItem} from '../actions/action'
-import {List} from "immutable"
 import io from "socket.io-client"
 
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
+import {List, ListItem} from 'material-ui/List'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
 injectTapEventPlugin()
 
-let socket;
+let robotFontStyle = {
+	fontFamily: "Roboto, sans-serif",
+	color: "rgba(0, 0, 0, 0.870588)"
+}
+let socket
 const mapStateToProps = (state = {}) => {
 	// console.dir(state)
     return {...state};
@@ -51,8 +55,8 @@ export  class Layout extends React.Component{
 		
 		return (
 			<div>
-				<h1>React TO-DO (Real-Time)</h1>
-				<h4>Real-Time To Do using React, Redux, socket.io and Redux-thunk on client and ExpressJs, MongoDb, socket.io on the server side </h4>
+				<h1 style={robotFontStyle}>React TO-DO (Real-Time)</h1>
+				<h4 style={robotFontStyle}>Real-Time To Do using React, Redux, socket.io and Redux-thunk on client and ExpressJs, MongoDb, socket.io on the server side </h4>
                 <hr/>
 				<TextField 
 					hintText="Add New Item"
@@ -72,14 +76,14 @@ export  class Layout extends React.Component{
 					  }
 					}
 				/>
-				<ul>{items.map((todo,key)=>{
-                    return <li key={key} className={todo.completed?"complete-item":""} onClick={ (event) => {
+				<List>{items.map((todo,key)=>{
+                    return <ListItem key={key} className={todo.completed?"complete-item":""} onClick={ (event) => {
 									  {/*dispatch(markItemComplete(key+1,!todo.completed))*/}
 									  dispatch(markItemCompleteSocket(socket,key+1,!todo.completed))
 									}
-								}>{todo.text}
-						   </li>})
-				}</ul>
+								} primaryText={todo.text}>
+						   </ListItem>})
+				}</List>
 				
 			</div>
 		);
