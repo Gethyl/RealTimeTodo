@@ -18,6 +18,9 @@ let robotFontStyle = {
 	fontFamily: "Roboto, sans-serif",
 	color: "rgba(0, 0, 0, 0.870588)"
 }
+let markCompleteStyle = {   
+  textDecoration: "line-through"
+}
 let socket
 const mapStateToProps = (state = {}) => {
 	// console.dir(state)
@@ -77,7 +80,7 @@ export  class Layout extends React.Component{
 					}
 				/>
 				<List>{items.map((todo,key)=>{
-                    return <ListItem key={key} className={todo.completed?"complete-item":""} onClick={ (event) => {
+                    return <ListItem key={key} style={todo.completed?markCompleteStyle:""} onClick={ (event) => {
 									  {/*dispatch(markItemComplete(key+1,!todo.completed))*/}
 									  dispatch(markItemCompleteSocket(socket,key+1,!todo.completed))
 									}
