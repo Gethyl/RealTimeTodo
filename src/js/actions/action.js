@@ -2,7 +2,7 @@ import axios from "axios"
 
 export const AddItem = (data) => ({
 	type: "ADD_ITEM",
-	text: data.item,
+	item: data.item,
 	itemId:data.id,
 	completed:data.completed
 })
@@ -11,12 +11,6 @@ export const completeItem = (data) => ({
 	type: "COMPLETED_ITEM",
 	itemId: data.id,
 	completed:data.completed
-})
-
-
-export const initialData = (res) => ({
-	type: "INITIAL_LIST",
-	items: res
 })
 
 /* Used only by actions for sockets */
@@ -30,6 +24,7 @@ export const initialItems = (res) => ({
 /***************************************************************************************** */
 export const loadInitialDataSocket = (socket) => {
 	return (dispatch) => {
+		// dispatch(clearAllItems())
 		socket.on('initialList',(res)=>{
 		   console.dir(res)
 		   dispatch(initialItems(res))

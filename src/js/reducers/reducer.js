@@ -9,7 +9,7 @@ const reducer = (state=initialState, action) => {
     case 'ADD_ITEM':
         return {
             ...state,
-            items:state.items.push({id:action.itemId,text:action.text,completed:action.completed})
+            items:state.items.push({id:action.itemId,item:action.item,completed:action.completed})
         } 	
 
     case 'COMPLETED_ITEM':
@@ -19,16 +19,15 @@ const reducer = (state=initialState, action) => {
            return {...value,completed:  action.completed}
         })
       }
-    case 'INITIAL_LIST':
-	  return {
+    case 'INITIAL_ITEMS':
+    return {
         ...state,
         items:List(action.items)
       }
-    case 'INITIAL_ITEMS':
-	  return {
-        ...state,
-        items:state.items.push({id:action.items.itemId,text:action.items.item,completed:action.items.completed})
-      }
+	  // return {
+    //     ...state,
+    //     items:state.items.push({id:action.items.itemId,item:action.items.item,completed:action.items.completed})
+    //   }
     default:
       return state
   }

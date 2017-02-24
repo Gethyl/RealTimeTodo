@@ -32,26 +32,25 @@ serve.listen(3000,()=> {console.log("+++Gethyl Express Server with Socket Runnin
 /***************************************************************************************** */
 const connections = [];
 io.on('connection', function (socket) {
-  console.log("Connected to Socket!!"+ socket.id)	
-  connections.push(socket)
-//   socket.emit('news', { hello: 'world' });
-//   socket.on('my other event', function (data) {
-//     console.log(data);
-//   });
+	console.log("Connected to Socket!!"+ socket.id)	
+	connections.push(socket)
+	socket.on('disconnect', function(){
+		console.log('Disconnected - '+ socket.id);
+	});
 
 	var cursor = todoModel.find({},"-_id itemId item completed",(err,result)=>{
 				if (err){
 					console.log("---Gethyl GET failed!!")
 				}
 				else {
+					socket.emit('initialList',result)
 					console.log("+++Gethyl GET worked!!")
 				}
-			}).cursor()
-	cursor.on('data',(res)=> {socket.emit('initialList',res)})
+			})
+	// 		.cursor()
+	// cursor.on('data',(res)=> {socket.emit('initialList',res)})
 	
 	socket.on('addItem',(addData)=>{
-		console.log("Entered addItem")
-		console.dir(addData)
 		var todoItem = new todoModel({
 			itemId:addData.id,
 			item:addData.item,
@@ -61,29 +60,29 @@ io.on('connection', function (socket) {
 		todoItem.save((err,result)=> {
 			if (err) {console.log("---Gethyl ADD NEW ITEM failed!! " + err)}
 			else {
-				connections.forEach((currentConnection)=>{
-					currentConnection.emit('itemAdded',addData)
-				})
+				// connections.forEach((currentConnection)=>{
+				// 	currentConnection.emit('itemAdded',addData)
+				// })
+				io.emit('itemAdded',addData)
 				
-				console.log({message:"+++Gethyl ADD NEW ITEM worked!!",result:result})
+				console.log({message:"+++Gethyl ADD NEW ITEM worked!!"})
 			}
 		})
 	})
 
 	socket.on('markItem',(markedItem)=>{
-		console.log("Entered markItem")
-		console.dir(markedItem)
 		var condition   = {itemId:markedItem.id},
 			updateValue = {completed:markedItem.completed}
 
 		todoModel.update(condition,updateValue,(err,result)=>{
 			if (err) {console.log("---Gethyl MARK COMPLETE failed!! " + err)}
 			else {
-				connections.forEach((currentConnection)=>{
-					currentConnection.emit('itemMarked',markedItem)
-				})
-				
-				console.log({message:"+++Gethyl MARK COMPLETE worked!!",result:result})
+				// connections.forEach((currentConnection)=>{
+				// 	currentConnection.emit('itemMarked',markedItem)
+				// })
+				io.emit('itemMarked',markedItem)
+
+				console.log({message:"+++Gethyl MARK COMPLETE worked!!"})
 			}
 		})
 	})

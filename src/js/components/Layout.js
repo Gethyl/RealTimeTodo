@@ -11,6 +11,8 @@ import RaisedButton from 'material-ui/RaisedButton'
 import {List, ListItem} from 'material-ui/List'
 import Divider from 'material-ui/Divider'
 
+// import {List as List} from 'immutable';
+
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
 injectTapEventPlugin()
@@ -67,7 +69,6 @@ export  class Layout extends React.Component{
       				floatingLabelText="Enter the new item"
 					ref="newTodo"
 				/>
-             {/*<input type="text" ref="newTodo"/>*/}
                 {" "}
 				<RaisedButton
 					label="Click to add!" primary={true}
@@ -85,7 +86,7 @@ export  class Layout extends React.Component{
 									  {/*dispatch(markItemComplete(key+1,!todo.completed))*/}
 									  dispatch(markItemCompleteSocket(socket,key+1,!todo.completed))
 									}
-								} primaryText={todo.text}>
+								} primaryText={todo.item}>
 						   </ListItem>})
 				}</List>
 				
