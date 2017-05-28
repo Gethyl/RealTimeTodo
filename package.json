@@ -8,7 +8,8 @@
   "scripts": {
     "start": "webpack-dev-server --content-base --inline --hot",
     "server": "babel-node  server.js",
-    "server2": "nodemon server.js"
+    "server2": "nodemon server.js",
+    "server+client": "babel-node server.js | yarn start"
   },
   "dependencies": {
     "axios": "^0.15.3",
@@ -27,9 +28,7 @@
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
-    "socket.io": "^1.7.2"
-  },
-  "devDependencies": {
+    "socket.io": "^1.7.2",
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.18.0",
@@ -37,5 +36,8 @@
     "babel-preset-stage-0": "^6.16.0",
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2"
+  },
+  "devDependencies": {
+  
   }
 }
