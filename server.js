@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const autoIncrement = require('mongoose-auto-increment')
 const http = require('http')
 const socketServer =require('socket.io')
+const path = require('path')
 
 const app = express();
 
@@ -27,7 +28,11 @@ var io = socketServer(serve);
 const port = process.env.PORT || 3000
 serve.listen(port,()=> {console.log(`+++Gethyl Express Server with Socket Running on ${port}!!!`)})
 
-app.get('/', function (req, res) { res.send('Hello Gethyl'); })
+const indexPath = path.join(__dirname, './index.html')
+// const publicPath = express.static(path.join(__dirname, '../public'))
+
+// app.use('/public', publicPath)
+app.get('/', function (req, res) { res.sendFile(indexPath) })
 /***************************************************************************************** */
 /* Socket logic starts here																   */
 /***************************************************************************************** */
