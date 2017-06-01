@@ -12,7 +12,7 @@ const todoModel = require('./models/todoModel')  //todo model
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
 
-// MONGOOSE CONNECT
+// MONGOOSE CONNECT - to change the local port for Heroku
 // ===========================================================================
 mongoose.connect('mongodb://localhost:27017/local')
 
