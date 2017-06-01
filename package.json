@@ -1,6 +1,6 @@
 {
   "name": "synccounter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "syncing counter app",
   "main": "index.js",
   "author": "Gethyl George Kurian",
@@ -37,7 +37,5 @@
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2"
   },
-  "devDependencies": {
-  
-  }
+  "devDependencies": {}
 }
