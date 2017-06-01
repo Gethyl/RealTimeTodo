@@ -6,7 +6,8 @@
   "author": "Gethyl George Kurian",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --content-base --inline --hot",
+    "start": "webpack && npm run server",
+    "dev": "webpack-dev-server --content-base --inline --hot",
     "server": "babel-node  server.js",
     "server2": "nodemon server.js",
     "server+client": "babel-node server.js | yarn start"
