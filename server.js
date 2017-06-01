@@ -27,7 +27,7 @@ var io = socketServer(serve);
 const port = process.env.PORT || 3000
 serve.listen(port,()=> {console.log(`+++Gethyl Express Server with Socket Running on ${port}!!!`)})
 
-
+app.get('/', function (req, res) { res.send('Hello Gethyl'); })
 /***************************************************************************************** */
 /* Socket logic starts here																   */
 /***************************************************************************************** */
