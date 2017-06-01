@@ -29,9 +29,9 @@ const port = process.env.PORT || 3000
 serve.listen(port,()=> {console.log(`+++Gethyl Express Server with Socket Running on ${port}!!!`)})
 
 const indexPath = path.join(__dirname, './index.html')
-// const publicPath = express.static(path.join(__dirname, '../public'))
+const distPath = express.static(path.join(__dirname, './dist'))
 
-// app.use('/public', publicPath)
+app.use('/dist', distPath)
 app.get('/', function (req, res) { res.sendFile(indexPath) })
 /***************************************************************************************** */
 /* Socket logic starts here																   */
